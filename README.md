@@ -9,6 +9,7 @@ None! All you need is a Windows machine, everything else is automatically downlo
 
 ##Usage
 Download this repository (Download ZIP), extract the files into a temporary folder and start the install_dayz.bat
+
 Follow instructions of the installer.
 
 Or follow these video instructions showing you all the required steps:
