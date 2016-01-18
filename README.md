@@ -56,6 +56,7 @@ Change `-maxmem` to the maximum amount of system memory (RAM) to use in MB
 
 ##Advanced configuration (optional)
 *This area is a stub. Help by expanding it.*
+
 Most of the advanced configuration is done by moidifying dayz_code or dayz_server or your mission file. You should have some programming knowledge in order to implement these changes.
 ###rules
 If you run a server with rules or additional services (website, teamspeak, ...), don't add them to your MOTD. There's a directive `dayz_enableRules = false;` in `dayz_folder\MPMissions\DayZ_Base.Chernarus\init.sqf` that you can enable. You will have to create a `rules.sqf` file parallel to the `init.sqf` that looks like this:
@@ -111,11 +112,16 @@ If you check dayz_code\Configs\CfgArma.hpp you will see this code:
 	};
 ```
 Unfortunately since this is an hpp file and not an sqf, it's not simply modified, or it'd be really, like REALLY, easy to change the loadout. I do not know how I could change this configuration through the mission file. If **YOU** know how, fork, edit, pull!
+
 What I do know is that you can export `dayz_code\init\compiles.sqf` and `dayz_code\compile\player_switchModel.sqf` to `MPMissions\DayZ_Base.Chernarus` (better keep original paths such as `dayz_code\init\` and `dayz_code\compile` within your Mission.
+
 Implement `compiles.sqf` by changing the line `call compile preprocessFileLineNumbers "\z\addons\dayz_code\init\compiles.sqf";` in your missions `init.sqf` to `call compile preprocessFileLineNumbers "dayz_code\init\compiles.sqf";`
+
 Make sure the paths are correct. This will load our custom `compiles.sqf` instead of the default DayZ one.
 Inside the `compiles.sqf` you will need to find the line `player_switchModel = compile preprocessFileLineNumbers "\z\addons\dayz_code\compile\player_switchModel.sqf";` and replace it with `player_switchModel = compile preprocessFileLineNumbers "dayz_code\compile\player_switchModel.sqf";`.
+
 Again, make sure the paths are correct. This will change the default `compiles.sqf` behaviour to load our custom player_switchModel.sqf instead of the default DayZ one.
+
 Finally, inside the `player_switchModel.sqf` append this code to the bottom:
 ```
 _load = [] spawn
