@@ -175,7 +175,7 @@ cd ..\..
 @echo start .\mysql_server\bin\mysqld.exe --console --log_syslog=0 >> _start.bat
 @echo echo Waiting 5s for MySQL to start>> _start.bat
 @echo timeout /t 5 /nobreak ^> NUL>> _start.bat
-@echo start .\Expansion\beta\arma2oaserver.exe -mod=Expansion\beta;Expansion\beta\expansion;ca;@dayz;@hive -name=cfgdayz -config=cfgdayz\server.cfg -cfg=cfgdayz\arma2.cfg -profiles=cfgdayz -world=Chernarus -cpuCount=4 -exThreads=8 -maxmem=12288 -noCB>> _start.bat
+@echo start .\Expansion\beta\arma2oaserver.exe -mod=Expansion\beta;Expansion\beta\expansion;ca;@dayz;@hive -name=cfgdayz -config=cfgdayz\server.cfg -cfg=cfgdayz\arma2.cfg -profiles=cfgdayz -world=Chernarus -cpuCount=4 -exThreads=7 -maxmem=12288 -noCB>> _start.bat
 @echo echo DayZ is starting.>> _start.bat
 @echo timeout /t 2 /nobreak ^> NUL>> _start.bat
 
