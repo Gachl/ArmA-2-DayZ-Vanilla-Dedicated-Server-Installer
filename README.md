@@ -19,16 +19,19 @@ https://youtu.be/XwwlrMkEdZQ
 - Download and set up correct DayZ server files, configs and mission
 - Download and set up a mysql server and database
 
-##Configuration
+##Configuration (required)
 After the installation has finished, edit your `dayz_folder\cfgdayz\server.cfg` and `dayz_folder\_start.bat`.
 
 ###server.cfg
 `hostname = "DayZ - Vanilla Private Server (1.8.6.1/Build 932840)";`
 Set the name that is displayed in the server list.
+
 `password = "leave empty for public server";`
 Set the password required to join. use `password = "";` to run a public server.
+
 `passwordAdmin = "change this";`
 Set the password used by admins to login to the server.  
+
 ```
 motd[] = {
 	"",
@@ -51,8 +54,9 @@ Change `-cpuCount` to the amount of physical cores to use (do not confuse physic
 Change `-exThreads` to the appropriate thread mask (https://community.bistudio.com/wiki/Arma2:_Startup_Parameters#exThreads)  
 Change `-maxmem` to the maximum amount of system memory (RAM) to use in MB
 
-##Advanced configuration
+##Advanced configuration (optional)
 *This area is a stub. Help by expanding it.*
+Most of the advanced configuration is done by moidifying dayz_code or dayz_server or your mission file. You should have some programming knowledge in order to implement these changes.
 ###rules
 If you run a server with rules or additional services (website, teamspeak, ...), don't add them to your MOTD. There's a directive `dayz_enableRules = false;` in `dayz_folder\MPMissions\DayZ_Base.Chernarus\init.sqf` that you can enable. You will have to create a `rules.sqf` file parallel to the `init.sqf` that looks like this:
 ```
@@ -91,3 +95,46 @@ _timeout = 5;
         sleep (_timeout * 1.1);
 } forEach _messages;
 ```
+###Custom spawning loadout
+If you check dayz_code\Configs\CfgArma.hpp you will see this code:
+```
+	class Inventory {
+		class Default {
+			RandomMagazines = 3;
+			//weapons[] = {"Makarov"};
+			//GuaranteedMagazines[] = {"ItemBandage","8Rnd_9x18_Makarov","8Rnd_9x18_Makarov","HandRoadFlare"};
+			GuaranteedMagazines[] = {"ItemBandage","HandRoadFlare"};
+			RandomPossibilitieMagazines[] = {"ItemBandage","ItemPainkiller"};
+			backpackWeapon = "";
+			//backpack = "DZ_Patrol_Pack_EP1";
+		};
+	};
+```
+Unfortunately since this is an hpp file and not an sqf, it's not simply modified, or it'd be really, like REALLY, easy to change the loadout. I do not know how I could change this configuration through the mission file. If **YOU** know how, fork, edit, pull!
+What I do know is that you can export `dayz_code\init\compiles.sqf` and `dayz_code\compile\player_switchModel.sqf` to `MPMissions\DayZ_Base.Chernarus` (better keep original paths such as `dayz_code\init\` and `dayz_code\compile` within your Mission.
+Implement `compiles.sqf` by changing the line `call compile preprocessFileLineNumbers "\z\addons\dayz_code\init\compiles.sqf";` in your missions `init.sqf` to `call compile preprocessFileLineNumbers "dayz_code\init\compiles.sqf";`
+Make sure the paths are correct. This will load our custom `compiles.sqf` instead of the default DayZ one.
+Inside the `compiles.sqf` you will need to find the line `player_switchModel = compile preprocessFileLineNumbers "\z\addons\dayz_code\compile\player_switchModel.sqf";` and replace it with `player_switchModel = compile preprocessFileLineNumbers "dayz_code\compile\player_switchModel.sqf";`.
+Again, make sure the paths are correct. This will change the default `compiles.sqf` behaviour to load our custom player_switchModel.sqf instead of the default DayZ one.
+Finally, inside the `player_switchModel.sqf` append this code to the bottom:
+```
+_load = [] spawn
+{
+	sleep 4;
+
+	if(count (weapons player) <= 1) then
+	{
+		player addWeapon "ItemCompass";
+		player addWeapon "ItemToolbox";
+		player addWeapon "ItemRadio";
+		player addWeapon "ItemHatchet";
+		player addMagazine "ItemAntibiotic";
+		player addMagazine "ItemMorphine";
+		player addMagazine "ItemHeatPack";
+		player addMagazine "ItemWaterbottle";
+		player addMagazine "FoodCanFrankBeans";
+		player addBackpack "DZ_Patrol_Pack_EP1";
+	};
+};
+```
+This should give you a fairly good example on how to add items to the spawn inventory.
