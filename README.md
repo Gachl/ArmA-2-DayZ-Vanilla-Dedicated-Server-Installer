@@ -40,8 +40,10 @@ motd[] = {
 motdInterval = 5;
 ```
 Define the MOTD that is displayed in the chat on connecting. Empty entries ("") delay the MOTD by the interval set by motdInterval (in seconds).
+
 `maxPlayers = 80;`
 Set the amount of player slots.
+
 ```
 disableVoN = 0;
 vonCodecQuality = 30;
@@ -50,7 +52,7 @@ Disable Voice over Net by setting `disableVoN` to 1. Useful if you notice perfor
 ###_start.bat
 `start .\Expansion\beta\arma2oaserver.exe -mod=Expansion\beta;Expansion\beta\expansion;ca;@dayz;@hive -name=cfgdayz -config=cfgdayz\server.cfg -cfg=cfgdayz\arma2.cfg -profiles=cfgdayz -world=Chernarus -cpuCount=4 -exThreads=7 -maxmem=12288 -noCB`
 
-Change `-cpuCount` to the amount of physical cores to use (do not confuse physical cores with threads or HT threads)  
+Change `-cpuCount` to the amount of physical cores to use (do not confuse physical cores with threads or HT cores)  
 Change `-exThreads` to the appropriate thread mask (https://community.bistudio.com/wiki/Arma2:_Startup_Parameters#exThreads)  
 Change `-maxmem` to the maximum amount of system memory (RAM) to use in MB
 
