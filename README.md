@@ -4,25 +4,25 @@ Using this script you can install and start an ArmA 2 DayZ server on your root s
 
 **Current DayZ Version**: 1.8.6.1 (*Latest by Jan. 18 2016*)
 
-##Prerequisites
+## Prerequisites
 **None**! All you need is a Windows machine, everything else is automatically downloaded or you will be instructed by the installer.
 
-##Usage
+## Usage
 Download this repository (**Download ZIP**), extract the files into a temporary folder and start the `install_dayz.bat`. Follow instructions of the installer.
 
 Or follow these video instructions showing you all the required steps:
 https://youtu.be/XwwlrMkEdZQ
 
-##What does it do?
+## What does it do?
 - Download SteamCMD
 - Download and set up correct ArmA and DayZ files from SteamCMD
 - Download and set up correct DayZ server files, configs and mission
 - Download and set up a mysql server and database
 
-##Configuration (required)
+## Configuration (required)
 After the installation has finished, edit your `dayz_folder\cfgdayz\server.cfg` and `dayz_folder\_start.bat`.
 
-###server.cfg
+### server.cfg
 `hostname = "DayZ - Vanilla Private Server (1.8.6.1/Build 932840)";`
 Set the name that is displayed in the server list.
 
@@ -49,18 +49,18 @@ disableVoN = 0;
 vonCodecQuality = 30;
 ```
 Disable Voice over Net by setting `disableVoN` to 1. Useful if you notice performance issues. `vonCodeQuality` accepts values from 1 (horrible quality) to 30 (best quality).
-###_start.bat
+### _start.bat
 `start .\Expansion\beta\arma2oaserver.exe -mod=Expansion\beta;Expansion\beta\expansion;ca;@dayz;@hive -name=cfgdayz -config=cfgdayz\server.cfg -cfg=cfgdayz\arma2.cfg -profiles=cfgdayz -world=Chernarus -cpuCount=4 -exThreads=7 -maxmem=12288 -noCB`
 
 Change `-cpuCount` to the amount of physical cores to use (do not confuse physical cores with threads or HT cores)  
 Change `-exThreads` to the appropriate thread mask (https://community.bistudio.com/wiki/Arma2:_Startup_Parameters#exThreads)  
 Change `-maxmem` to the maximum amount of system memory (RAM) to use in MB
 
-##Advanced configuration (optional)
+## Advanced configuration (optional)
 *This area is a stub. Help by expanding it.*
 
 Most of the advanced configuration is done by moidifying dayz_code or dayz_server or your mission file. You should have some programming knowledge in order to implement these changes.
-###rules
+### rules
 If you run a server with rules or additional services (website, teamspeak, ...), don't add them to your MOTD. There's a directive `dayz_enableRules = false;` in `dayz_folder\MPMissions\DayZ_Base.Chernarus\init.sqf` that you can enable. You will have to create a `rules.sqf` file parallel to the `init.sqf` that looks like this:
 ```
 private ["_messages", "_timeout"];
@@ -98,7 +98,7 @@ _timeout = 5;
         sleep (_timeout * 1.1);
 } forEach _messages;
 ```
-###Custom spawning loadout
+### Custom spawning loadout
 If you check dayz_code\Configs\CfgArma.hpp you will see this code:
 ```
 	class Inventory {
